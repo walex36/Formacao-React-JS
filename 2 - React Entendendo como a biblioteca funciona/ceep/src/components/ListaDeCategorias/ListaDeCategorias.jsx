@@ -1,7 +1,26 @@
 import React, { Component } from 'react';
 import './estilo.css';
 
-class ListaDeCategorias extends React.Component{
+class ListaDeCategorias extends Component {
+
+    constructor(){
+        super();
+        this.state = {categorias:[]}
+
+        this._novasCategorias = this._novasCategorias.bind(this);
+    }
+
+    componentDidMount(){
+        this.props.categorias.inscrever(this._novasCategorias);
+    }
+
+    componentWillUnmount(){
+        this.props.categoria.desinscrever(this._novasCategorias)
+    }
+
+    _novasCategorias(categorias){
+        this.setState({...this.state, categorias});
+    }
 
     _handleEventoInput(e) {
         e.preventDefault();
@@ -16,7 +35,7 @@ class ListaDeCategorias extends React.Component{
         return (
             <section className="lista-categorias">
                 <ul className="lista-categorias_lista">
-                    {this.props.categorias.map((categoria, index) => {
+                    {this.state.categorias.map((categoria, index) => {
                         return <li key={index} className="lista-categorias_item">{categoria}</li>
                     })}
                 </ul>
